@@ -13,7 +13,16 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.lightBlue,
-        body: Container(
+        body: GradientContainer(),
+      ),
+    );
+  }
+}
+
+class GradientContainer extends StatelessWidget {
+  @override
+  Widget build(context){
+    return Container(
           decoration: const BoxDecoration( 
             gradient: LinearGradient( colors: [ 
               Color(0xFF0f2027),
@@ -23,8 +32,8 @@ class MainApp extends StatelessWidget {
           child: const Center(
             child: Text('Hello World!', style: TextStyle(color: Colors.white, fontSize: 28),),
           ),
-        ),
-      ),
-    );
+        );
+    
   }
+
 }
