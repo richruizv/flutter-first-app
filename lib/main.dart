@@ -10,7 +10,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.lightBlue,
         body: GradientContainer(),
@@ -20,6 +20,7 @@ class MainApp extends StatelessWidget {
 }
 
 class GradientContainer extends StatelessWidget {
+  const GradientContainer({key}): super(key: key);
   @override
   Widget build(context){
     return Container(
