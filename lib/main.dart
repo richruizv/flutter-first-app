@@ -6,14 +6,22 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.lightBlue,
-        body: Center(
-          child: Text('Hello World!'),
+        body: Container(
+          decoration: const BoxDecoration( 
+            gradient: LinearGradient( colors: [ 
+              Color(0xFF0f2027),
+              Color(0xFF203a43),
+              Color(0xFF2c5364),])),
+          child: const Center(
+            child: Text('Hello World!'),
+          ),
         ),
       ),
     );
