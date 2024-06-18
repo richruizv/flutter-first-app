@@ -14,7 +14,9 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.lightBlue,
-        body: GradientContainer(),
+        body: GradientContainer(
+            [Color(0xff12c2e9), Color(0xffc471ed), Color(0xfff64f59)]
+        ),
       ),
     );
   }
