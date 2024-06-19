@@ -9,17 +9,20 @@ class StartScreen extends StatelessWidget {
         child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // This also could be declared with the constructor Image.asset()
-        const Image(
-          image: AssetImage('images/quiz-logo.png'),
-          width: 200,
+        const Opacity(
+          opacity: 0.4,
+          child: Image(
+            // This also could be declared with the constructor Image.asset()
+            image: AssetImage('images/quiz-logo.png'),
+            width: 200,
+          ),
         ),
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         const Text(
           'Learn Flutter the fun way!',
           style: TextStyle(color: Colors.white, fontSize: 24),
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 20),
         OutlinedButton.icon(
             onPressed: () {
               print('its way too late');
