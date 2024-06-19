@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_test_app/answer_button.dart';
 import 'package:flutter_test_app/data/questions.dart';
 
@@ -32,8 +33,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(currentQuestion.text,
-                  style: const TextStyle(color: Colors.white)),
+              Text(
+                currentQuestion.text,
+                style: GoogleFonts.lato(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 30),
               ...currentQuestion.getShuffledAnswers().map((answer) {
                 return Container(
