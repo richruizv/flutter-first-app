@@ -46,7 +46,16 @@ class _QuizState extends State<Quiz> {
         screen = ResultScreen(chosenAnswers: selectedAnswers);
         break;
       default:
-        screen = StartScreen(switchScreen);
+        final selectedAnswers = [
+          'test 1',
+          'test 2',
+          'test 3',
+          'test 4',
+          'test 5',
+          'test 6'
+        ];
+        screen = ResultScreen(chosenAnswers: selectedAnswers);
+        //screen = StartScreen(switchScreen);
         break;
     }
 
