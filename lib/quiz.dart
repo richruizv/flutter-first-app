@@ -25,7 +25,7 @@ class _QuizState extends State<Quiz> {
     }
   }
 
-  switchScreen() {
+  startQuiz() {
     setState(() {
       activeScreen = 'question';
     });
@@ -33,29 +33,21 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(context) {
-    var screen;
+    Widget? screen;
 
     switch (activeScreen) {
       case 'start':
-        screen = StartScreen(switchScreen);
+        screen = StartScreen(startQuiz);
         break;
       case 'question':
         screen = QuestionScreen(onSelectAnswer: selectAnswer);
         break;
       case 'result':
-        screen = ResultScreen(chosenAnswers: selectedAnswers);
+        screen =
+            ResultScreen(chosenAnswers: selectedAnswers, onRestart: startQuiz);
         break;
       default:
-        final selectedAnswers = [
-          'test 1',
-          'test 2',
-          'test 3',
-          'test 4',
-          'test 5',
-          'test 6'
-        ];
-        screen = ResultScreen(chosenAnswers: selectedAnswers);
-        //screen = StartScreen(switchScreen);
+        screen = StartScreen(startQuiz);
         break;
     }
 
