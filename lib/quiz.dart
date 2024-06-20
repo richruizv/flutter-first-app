@@ -27,6 +27,7 @@ class _QuizState extends State<Quiz> {
 
   startQuiz() {
     setState(() {
+      selectedAnswers = [];
       activeScreen = 'question';
     });
   }
