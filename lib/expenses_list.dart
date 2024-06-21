@@ -5,14 +5,10 @@ class ExpensesList extends StatelessWidget {
   const ExpensesList({super.key, required this.expenses});
 
   final List<Expense> expenses;
-  
+
   @override
   Widget build(BuildContext context) {
-    
-    return Column(
-      children: expenses.map((expense) {
-        return Text(expense.title);
-      }).toList()
-    );
+    return ListView.builder(
+        itemCount: 5, itemBuilder: (ctx, index) => Text(expenses[index].title));
   }
 }
