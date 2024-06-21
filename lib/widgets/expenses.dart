@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/data/expenses.dart';
 import 'package:flutter_test_app/widgets/expenses_list/expenses_list.dart';
+import 'package:flutter_test_app/widgets/new_expense.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -15,7 +16,7 @@ class _ExpensesState extends State<Expenses> {
     showModalBottomSheet(
         context: context,
         builder: (ctx) {
-          return const Text('Show bottom modal');
+          return const NewExpense();
         });
   }
 
