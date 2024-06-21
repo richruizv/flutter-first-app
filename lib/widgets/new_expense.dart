@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -11,10 +12,17 @@ class NewExpense extends StatefulWidget {
 
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+
+  _clearForm() {
+    _titleController.clear();
+    _amountController.clear();
+  }
 
   @override
   void dispose() {
     _titleController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -29,10 +37,25 @@ class _NewExpenseState extends State<NewExpense> {
                 maxLength: 50,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(label: Text('Title'))),
+            TextField(
+              controller: _amountController,
+              maxLength: 10,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
+              ],
+              decoration: const InputDecoration(
+                labelText: 'Amount',
+                prefixText: '\$ ',
+              ),
+            ),
             Row(
               children: [
                 ElevatedButton(
-                    onPressed: () => print(_titleController.text),
+                    onPressed: _clearForm, child: const Text('Cancel')),
+                ElevatedButton(
+                    onPressed: () => print(
+                        " ${_titleController.text} ${_amountController.text}"),
                     child: const Text('Save Expense'))
               ],
             )
