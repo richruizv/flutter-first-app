@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test_app/helper/date_formatter.dart';
+import 'package:flutter_test_app/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -15,6 +16,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? selectedDate;
+  Category? selectedCategory;
 
   _clearForm() {
     Navigator.pop(context);
@@ -32,6 +34,14 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       selectedDate = datePicked;
     });
+  }
+
+  _selectCategory(value) {
+    if (value != null) {
+      setState(() {
+        selectedCategory = value;
+      });
+    }
   }
 
   @override
@@ -84,6 +94,25 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 )
               ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButton(
+                      value: selectedCategory,
+                      isExpanded: true,
+                      items: Category.values
+                          .map((category) => DropdownMenuItem(
+                                value: category,
+                                child: Text(category.name),
+                              ))
+                          .toList(),
+                      onChanged: _selectCategory),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
