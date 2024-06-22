@@ -15,8 +15,17 @@ class _NewExpenseState extends State<NewExpense> {
   final _amountController = TextEditingController();
 
   _clearForm() {
-    _titleController.clear();
-    _amountController.clear();
+    Navigator.pop(context);
+  }
+
+  _presentDatePicker() {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: firstDate,
+        lastDate: now);
   }
 
   @override
@@ -37,22 +46,41 @@ class _NewExpenseState extends State<NewExpense> {
                 maxLength: 50,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(label: Text('Title'))),
-            TextField(
-              controller: _amountController,
-              maxLength: 10,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
-              ],
-              decoration: const InputDecoration(
-                labelText: 'Amount',
-                prefixText: '\$ ',
-              ),
-            ),
             Row(
               children: [
-                ElevatedButton(
-                    onPressed: _clearForm, child: const Text('Cancel')),
+                Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    maxLength: 10,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
+                    ],
+                    decoration: const InputDecoration(
+                      labelText: 'Amount',
+                      prefixText: '\$ ',
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Selected Date'),
+                      IconButton(
+                          onPressed: _presentDatePicker,
+                          icon: const Icon(Icons.calendar_month))
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(onPressed: _clearForm, child: const Text('Cancel')),
                 ElevatedButton(
                     onPressed: () => print(
                         " ${_titleController.text} ${_amountController.text}"),
