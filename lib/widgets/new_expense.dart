@@ -15,8 +15,8 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime? selectedDate;
-  Category? selectedCategory;
+  DateTime? _selectedDate;
+  Category? _selectedCategory;
 
   _clearForm() {
     Navigator.pop(context);
@@ -32,15 +32,27 @@ class _NewExpenseState extends State<NewExpense> {
         lastDate: now);
 
     setState(() {
-      selectedDate = datePicked;
+      _selectedDate = datePicked;
     });
   }
 
   _selectCategory(value) {
     if (value != null) {
       setState(() {
-        selectedCategory = value;
+        _selectedCategory = value;
       });
+    }
+  }
+
+  _submitForm() {
+    final title = _titleController.text.trim();
+    final enteredAmount = double.tryParse(_amountController.text);
+    final validAmount = enteredAmount != null && enteredAmount > 0;
+    final date = _selectedDate;
+    final category = _selectedCategory;
+
+    if (title.isEmpty || !validAmount || date == null || category == null) {
+      print('Missing attributies');
     }
   }
 
@@ -84,9 +96,9 @@ class _NewExpenseState extends State<NewExpense> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(selectedDate == null
+                      Text(_selectedDate == null
                           ? 'No date selected.'
-                          : formatter(selectedDate)),
+                          : formatter(_selectedDate)),
                       IconButton(
                           onPressed: _presentDatePicker,
                           icon: const Icon(Icons.calendar_month))
@@ -99,7 +111,7 @@ class _NewExpenseState extends State<NewExpense> {
               children: [
                 Expanded(
                   child: DropdownButton(
-                      value: selectedCategory,
+                      value: _selectedCategory,
                       isExpanded: true,
                       items: Category.values
                           .map((category) => DropdownMenuItem(
@@ -111,7 +123,7 @@ class _NewExpenseState extends State<NewExpense> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -119,9 +131,7 @@ class _NewExpenseState extends State<NewExpense> {
               children: [
                 TextButton(onPressed: _clearForm, child: const Text('Cancel')),
                 ElevatedButton(
-                    onPressed: () => print(
-                        " ${_titleController.text} ${_amountController.text}"),
-                    child: const Text('Save Expense'))
+                    onPressed: _submitForm, child: const Text('Save Expense'))
               ],
             )
           ],
