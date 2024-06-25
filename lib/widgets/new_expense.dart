@@ -4,7 +4,9 @@ import 'package:flutter_test_app/helper/date_formatter.dart';
 import 'package:flutter_test_app/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<StatefulWidget> createState() {
@@ -53,7 +55,11 @@ class _NewExpenseState extends State<NewExpense> {
 
     if (title.isEmpty || !validAmount || date == null || category == null) {
       print('Missing attributies');
+      return;
     }
+
+    widget.onAddExpense(Expense(
+        title: title, amount: enteredAmount, date: date, category: category));
   }
 
   @override
