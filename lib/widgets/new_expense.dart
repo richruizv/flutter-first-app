@@ -60,6 +60,7 @@ class _NewExpenseState extends State<NewExpense> {
 
     widget.onAddExpense(Expense(
         title: title, amount: enteredAmount, date: date, category: category));
+    _clearForm();
   }
 
   @override
