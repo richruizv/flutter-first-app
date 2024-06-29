@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/data/expenses.dart';
 import 'package:flutter_test_app/models/expense.dart';
+import 'package:flutter_test_app/widgets/chart/chart.dart';
 import 'package:flutter_test_app/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter_test_app/widgets/new_expense.dart';
 
@@ -64,7 +65,7 @@ class _ExpensesState extends State<Expenses> {
               icon: const Icon(Icons.add), onPressed: _openAddExpenseOverlay)
         ]),
         body: Column(children: [
-          const Text('The chart!'),
+          Chart(expenses: _registeredExpenses),
           Expanded(child: mainContent)
         ]));
   }
