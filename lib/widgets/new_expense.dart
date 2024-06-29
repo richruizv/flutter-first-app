@@ -98,15 +98,19 @@ class _NewExpenseState extends State<NewExpense> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const VerticalDivider(width: 1.0),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(_selectedDate == null
-                          ? 'No date selected.'
-                          : formatter(_selectedDate)),
+                      Text(
+                        _selectedDate == null
+                            ? 'No date selected.'
+                            : formatter(_selectedDate),
+                        style: const TextStyle(fontSize: 12),
+                      ),
                       IconButton(
+                          padding: EdgeInsets.zero,
                           onPressed: _presentDatePicker,
                           icon: const Icon(Icons.calendar_month))
                     ],
