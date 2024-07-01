@@ -72,80 +72,84 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            TextField(
-                controller: _titleController,
-                maxLength: 50,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(label: Text('Title'))),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _amountController,
-                    maxLength: 10,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'))
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: 'Amount',
-                      prefixText: '\$ ',
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return SingleChildScrollView(
+      child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 48, 16, keyboardSpace + 16),
+          child: Column(
+            children: [
+              TextField(
+                  controller: _titleController,
+                  maxLength: 50,
+                  keyboardType: TextInputType.name,
+                  decoration: const InputDecoration(label: Text('Title'))),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _amountController,
+                      maxLength: 10,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}'))
+                      ],
+                      decoration: const InputDecoration(
+                        labelText: 'Amount',
+                        prefixText: '\$ ',
+                      ),
                     ),
                   ),
-                ),
-                const VerticalDivider(width: 1.0),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _selectedDate == null
-                            ? 'No date selected.'
-                            : formatter(_selectedDate),
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                      IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _presentDatePicker,
-                          icon: const Icon(Icons.calendar_month))
-                    ],
+                  const VerticalDivider(width: 1.0),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectedDate == null
+                              ? 'No date selected.'
+                              : formatter(_selectedDate),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: _presentDatePicker,
+                            icon: const Icon(Icons.calendar_month))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton(
+                        value: _selectedCategory,
+                        isExpanded: true,
+                        items: Category.values
+                            .map((category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(category.name),
+                                ))
+                            .toList(),
+                        onChanged: _selectCategory),
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButton(
-                      value: _selectedCategory,
-                      isExpanded: true,
-                      items: Category.values
-                          .map((category) => DropdownMenuItem(
-                                value: category,
-                                child: Text(category.name),
-                              ))
-                          .toList(),
-                      onChanged: _selectCategory),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: _clearForm, child: const Text('Cancel')),
-                ElevatedButton(
-                    onPressed: _submitForm, child: const Text('Save Expense'))
-              ],
-            )
-          ],
-        ));
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: _clearForm, child: const Text('Cancel')),
+                  ElevatedButton(
+                      onPressed: _submitForm, child: const Text('Save Expense'))
+                ],
+              )
+            ],
+          )),
+    );
   }
 }
