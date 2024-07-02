@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test_app/helper/date_formatter.dart';
@@ -46,6 +49,38 @@ class _NewExpenseState extends State<NewExpense> {
     }
   }
 
+  _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+                  title: const Text('Invalid input'),
+                  content: const Text(
+                      'Please make sure a valid title, amount, date and category was entered.'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                        },
+                        child: const Text('okay'))
+                  ]));
+    } else {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: const Text('Invalid input'),
+                  content: const Text(
+                      'Please make sure a valid title, amount, date and category was entered.'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                        },
+                        child: const Text('okay'))
+                  ]));
+    }
+  }
+
   _submitForm() {
     final title = _titleController.text.trim();
     final enteredAmount = double.tryParse(_amountController.text);
@@ -54,7 +89,7 @@ class _NewExpenseState extends State<NewExpense> {
     final category = _selectedCategory;
 
     if (title.isEmpty || !validAmount || date == null || category == null) {
-      print('Missing attributies');
+      _showDialog();
       return;
     }
 
