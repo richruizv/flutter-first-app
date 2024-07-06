@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/data/dummy_data.dart';
 
 class Category {
   const Category(
@@ -7,4 +8,8 @@ class Category {
   final String id;
   final String title;
   final Color color;
+
+  get meals {
+    return dummyMeals.where((meal) => meal.categories.contains(id)).toList();
+  }
 }
