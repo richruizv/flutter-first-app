@@ -5,9 +5,9 @@ import 'package:flutter_test_app/widgets/meal_item.dart';
 import 'package:flutter_test_app/widgets/shared/not_found.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, required this.title, required this.meals});
+  const MealsScreen({super.key, this.title, required this.meals});
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   selectMeal(BuildContext context, Meal meal) {
@@ -27,6 +27,10 @@ class MealsScreen extends StatelessWidget {
       body = const NotFound(title: 'Try selecting a different category');
     }
 
-    return Scaffold(appBar: AppBar(title: Text(title)), body: body);
+    if (title == null) {
+      return body;
+    }
+
+    return Scaffold(appBar: AppBar(title: Text(title!)), body: body);
   }
 }

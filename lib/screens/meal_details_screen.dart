@@ -10,7 +10,6 @@ class MealDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(title: Text(meal.title)),
       body: SingleChildScrollView(
