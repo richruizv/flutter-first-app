@@ -23,12 +23,24 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void toggleFavoriteMeal(Meal meal) {
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  void _toggleFavoriteMeal(Meal meal) {
     final index = _favoriteMeals.indexWhere((m) => m.id == meal.id);
     if (index < 0) {
-      _favoriteMeals.add(meal);
+      setState(() {
+        _favoriteMeals.add(meal);
+        _showInfoMessage('Meal is no longer a favorite.');
+      });
     } else {
-      _favoriteMeals.removeAt(index);
+      setState(() {
+        _favoriteMeals.removeAt(index);
+        _showInfoMessage('Marked as a favorite!');
+      });
     }
   }
 
@@ -38,14 +50,14 @@ class _TabsScreenState extends State<TabsScreen> {
       0: {
         'title': const Text('Categories'),
         'page': CategoriesScreen(
-          onClickFavoriteMeal: toggleFavoriteMeal,
+          onClickFavoriteMeal: _toggleFavoriteMeal,
         )
       },
       1: {
         'title': const Text('Your Favorites'),
         'page': MealsScreen(
           meals: _favoriteMeals,
-          onClickFavoriteMeal: toggleFavoriteMeal,
+          onClickFavoriteMeal: _toggleFavoriteMeal,
         ),
       }
     };
