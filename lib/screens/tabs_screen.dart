@@ -3,6 +3,7 @@ import 'package:flutter_test_app/models/meal.dart';
 import 'package:flutter_test_app/screens/categories_screen.dart';
 import 'package:flutter_test_app/screens/meals_screen.dart';
 import 'package:flutter_test_app/data/dummy_data.dart';
+import 'package:flutter_test_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -66,6 +67,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     return Scaffold(
       appBar: AppBar(title: activePage!['title']),
+      drawer: const MainDrawer(),
       body: activePage['page'],
       bottomNavigationBar: BottomNavigationBar(
           onTap: (index) => _selectPage(index),
