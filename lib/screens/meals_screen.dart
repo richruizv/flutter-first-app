@@ -5,14 +5,23 @@ import 'package:flutter_test_app/widgets/meal_item.dart';
 import 'package:flutter_test_app/widgets/shared/not_found.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, this.title, required this.meals});
+  const MealsScreen({
+    this.title,
+    required this.meals,
+    required this.onClickFavoriteMeal,
+    super.key,
+  });
 
   final String? title;
   final List<Meal> meals;
+  final void Function(Meal) onClickFavoriteMeal;
 
   selectMeal(BuildContext context, Meal meal) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (ctx) => MealDetailsScreen(meal: meal)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (ctx) => MealDetailsScreen(
+              meal: meal,
+              onClickFavoriteMeal: onClickFavoriteMeal,
+            )));
   }
 
   @override
