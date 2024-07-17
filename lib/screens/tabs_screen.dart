@@ -39,8 +39,10 @@ class _TabsScreenState extends State<TabsScreen> {
     if (identifier == 'filters') {
       // This also could be pushReplacement, to delete the screan instead of add more screen
       Navigator.of(context)
-          .push<Map<Filter, bool>>(
-              MaterialPageRoute(builder: (ctx) => const FiltersScreen()))
+          .push<Map<Filter, bool>>(MaterialPageRoute(
+              builder: (ctx) => FiltersScreen(
+                    currentFilters: _selectedFilters,
+                  )))
           .then((filters) => {
                 setState(() {
                   _selectedFilters = filters ?? kInitialFilters;
