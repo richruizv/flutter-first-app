@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test_app/providers/filters_provider.dart';
 
-enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
-
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({required this.currentFilters, super.key});
-
-  final Map<Filter, bool> currentFilters;
+class FiltersScreen extends ConsumerStatefulWidget {
+  const FiltersScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<FiltersScreen> createState() {
     return FiltersScreenState();
   }
 }
 
-class FiltersScreenState extends State<FiltersScreen> {
+class FiltersScreenState extends ConsumerState<FiltersScreen> {
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
@@ -23,10 +21,12 @@ class FiltersScreenState extends State<FiltersScreen> {
   void initState() {
     super.initState();
 
-    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
-    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
-    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
-    _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+    final currentFilters = ref.read(filtersProvider);
+
+    _glutenFreeFilterSet = currentFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet = currentFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet = currentFilters[Filter.vegetarian]!;
+    _veganFilterSet = currentFilters[Filter.vegan]!;
   }
 
   @override
@@ -34,10 +34,9 @@ class FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Filters')),
       body: PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvoked: (bool didPop) {
-          if (didPop) return;
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFilterSet,
