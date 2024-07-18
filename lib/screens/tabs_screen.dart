@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test_app/models/meal.dart';
+
+import 'package:flutter_test_app/providers/favorites_provider.dart';
 import 'package:flutter_test_app/screens/categories_screen.dart';
 import 'package:flutter_test_app/screens/filters_screen.dart';
 import 'package:flutter_test_app/screens/meals_screen.dart';
@@ -25,7 +26,6 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favoriteMeals = [];
   var _selectedFilters = kInitialFilters;
 
   void _selectPage(int index) {
@@ -52,30 +52,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }
   }
 
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
-
-  void _toggleFavoriteMeal(Meal meal) {
-    final index = _favoriteMeals.indexWhere((m) => m.id == meal.id);
-    if (index < 0) {
-      setState(() {
-        _favoriteMeals.add(meal);
-        _showInfoMessage('Meal is no longer a favorite.');
-      });
-    } else {
-      setState(() {
-        _favoriteMeals.removeAt(index);
-        _showInfoMessage('Marked as a favorite!');
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
+    final favoriteMeals = ref.watch(favoriteMealsProvider);
+
     final availableMeals = meals.where((meal) {
       if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
@@ -100,14 +81,12 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
         'title': const Text('Categories'),
         'page': CategoriesScreen(
           availableMeals: availableMeals,
-          onClickFavoriteMeal: _toggleFavoriteMeal,
         )
       },
       1: {
         'title': const Text('Your Favorites'),
         'page': MealsScreen(
-          meals: _favoriteMeals,
-          onClickFavoriteMeal: _toggleFavoriteMeal,
+          meals: favoriteMeals,
         ),
       }
     };
