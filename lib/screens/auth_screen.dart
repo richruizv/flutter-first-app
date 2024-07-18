@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/widgets/user_image_picker.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -28,11 +29,10 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       if (_isLogin) {
         // log users in
-        final userCredential = await _firebase.signInWithEmailAndPassword(
+        await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
-        print(userCredential);
       } else {
-        final userCredential = await _firebase.createUserWithEmailAndPassword(
+        await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
     } on FirebaseAuthException catch (error) {
@@ -64,6 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Form(
                       key: _form,
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        if (!_isLogin) const UserImagePicker(),
                         TextFormField(
                             decoration: const InputDecoration(
                                 labelText: 'Email Address'),
