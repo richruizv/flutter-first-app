@@ -10,7 +10,19 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  var _isLogin = true;
+  final _form = GlobalKey<FormState>();
+
+  bool _isLogin = true;
+  String _enteredEmail = '';
+  String _enteredPassword = '';
+
+  void _submit() {
+    final isValid = _form.currentState!.validate();
+
+    if (isValid) {
+      _form.currentState!.save();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +44,48 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Form(
+                      key: _form,
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Email Address'),
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          textCapitalization: TextCapitalization.none,
-                        ),
+                            decoration: const InputDecoration(
+                                labelText: 'Email Address'),
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            textCapitalization: TextCapitalization.none,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Please enter an email address';
+                              }
+                              if (!RegExp(
+                                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                                  .hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _enteredEmail = value!;
+                            }),
                         TextFormField(
                           decoration:
                               const InputDecoration(labelText: 'Password'),
                           obscureText: true,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please enter a password';
+                            }
+                            if (value.trim().length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _enteredPassword = value!;
+                          },
                         ),
                         const SizedBox(height: 12),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: _submit,
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context)
                                     .colorScheme
