@@ -7,10 +7,10 @@ class GroceriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: groceryItems
-          .map((item) => GroceriesListItem(groceryItem: item))
-          .toList(),
-    );
+    return ListView.builder(
+        itemCount: groceryItems.length,
+        itemBuilder: (ctx, index) => GroceriesListItem(
+              groceryItem: groceryItems[index],
+            ));
   }
 }
