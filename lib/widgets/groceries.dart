@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/data/dummy_items.dart';
+import 'package:flutter_test_app/models/grocery_item.dart';
 import 'package:flutter_test_app/widgets/groceries_list.dart';
 import 'package:flutter_test_app/widgets/new_item.dart';
 
@@ -12,10 +14,19 @@ class Groceries extends StatefulWidget {
 }
 
 class _GroceriesState extends State<Groceries> {
-  void _addItem() {
-    Navigator.of(context).push(
+  final List<GroceryItem> _groceryItems = dummyGroceryItems;
+
+  Future<void> _addItem() async {
+    final newItem = await Navigator.of(context).push<GroceryItem>(
       MaterialPageRoute(builder: (ctx) => const NewItem()),
     );
+
+    if (newItem == null) {
+      return;
+    }
+    setState(() {
+      _groceryItems.add(newItem);
+    });
   }
 
   @override
@@ -27,8 +38,8 @@ class _GroceriesState extends State<Groceries> {
             icon: const Icon(Icons.add),
           )
         ]),
-        body: const Center(
-          child: GroceriesList(),
+        body: Center(
+          child: GroceriesList(groceryItems: _groceryItems),
         ));
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter_test_app/models/grocery_item.dart';
 import 'package:flutter_test_app/data/categories.dart';
 import 'package:flutter_test_app/models/category.dart';
 
-final groceryItems = [
+final dummyGroceryItems = [
   GroceryItem(
       id: 'a',
       name: 'Milk',
