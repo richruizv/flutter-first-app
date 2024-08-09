@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/data/categories.dart';
+import 'package:flutter_test_app/models/category.dart';
 
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
@@ -12,9 +13,17 @@ class NewItem extends StatefulWidget {
 
 class _NewItemState extends State<NewItem> {
   final _formKey = GlobalKey<FormState>();
+  String _enteredName = '';
+  int _enteredQuantity = 0;
+  Category _selectedCategory = categories[Categories.vegetables]!;
 
   void _saveItem() {
-    _formKey.currentState!.validate();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      print(_enteredName);
+      print(_enteredQuantity);
+      print(_selectedCategory.name);
+    }
   }
 
   @override
@@ -47,6 +56,9 @@ class _NewItemState extends State<NewItem> {
 
                   return null;
                 },
+                onSaved: (value) {
+                  _enteredName = value!;
+                },
               ),
               Row(
                 children: [
@@ -68,6 +80,9 @@ class _NewItemState extends State<NewItem> {
                         }
                         return null;
                       },
+                      onSaved: (value) {
+                        _enteredQuantity = int.parse(value!);
+                      },
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -76,6 +91,7 @@ class _NewItemState extends State<NewItem> {
                         decoration: const InputDecoration(
                           label: Text(''),
                         ),
+                        value: _selectedCategory,
                         items: [
                           for (final category in categories.entries)
                             DropdownMenuItem(
@@ -92,7 +108,11 @@ class _NewItemState extends State<NewItem> {
                                   Text(category.value.name)
                                 ])),
                         ],
-                        onChanged: (value) {}),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCategory = value!;
+                          });
+                        }),
                   ),
                 ],
               ),
@@ -108,7 +128,7 @@ class _NewItemState extends State<NewItem> {
                   ),
                   ElevatedButton(
                     onPressed: _saveItem,
-                    child: const Text('Add button'),
+                    child: const Text('Add Item'),
                   )
                 ],
               )
